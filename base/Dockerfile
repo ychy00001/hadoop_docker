@@ -14,7 +14,8 @@ COPY jdk-8u144-linux-x64.tar.gz /usr/lib/jvm/jdk-8u144-linux-x64.tar.gz
 RUN cd /usr/lib/jvm && \
     tar xf jdk-8u144-linux-x64.tar.gz -C /usr/lib/jvm && \
     rm -rf jdk-8u144-linux-x64.tar.gz && \
-    ln -s /usr/lib/jvm/jdk1.8.0_144 /opt/jdk
+    ln -s /usr/lib/jvm/jdk1.8.0_144 /opt/jdk && \
+    ln -s /usr/lib/jvm/jdk1.8.0_144/bin/java /bin/java
 
 ENV PATH=${PATH}:$JAVA_HOME/bin
 

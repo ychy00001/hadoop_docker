@@ -1,4 +1,4 @@
-FROM registry.cn-beijing.aliyuncs.com/ychy/hadoop:base-3.2.1-oracle8
+FROM registry.cn-beijing.aliyuncs.com/ychy/hadoop:base-3.2.1-java8
 
 LABEL maintainer="Rain <ychy00001@163.com>"
 
