@@ -2,7 +2,7 @@ version: '3'
 
 services:
   master:
-    image: registry.cn-beijing.aliyuncs.com/ychy/hadoop:master-3.2.1-oracle8
+    build: ./master
     container_name: master
     volumes:
       - ./etc:/etc/hadoop
@@ -16,7 +16,7 @@ services:
         ipv4_address: 172.16.1.2
   
   slave1:
-    image: registry.cn-beijing.aliyuncs.com/ychy/hadoop:slave-3.2.1-oracle8
+    build: ./slave1
     container_name: slave1
     volumes:
       - ./etc:/etc/hadoop
@@ -28,7 +28,7 @@ services:
       - master
 
   slave2:
-    image: registry.cn-beijing.aliyuncs.com/ychy/hadoop:slave-3.2.1-oracle8
+    build: ./slave2
     container_name: slave2
     volumes:
       - ./etc:/etc/hadoop
