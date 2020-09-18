@@ -1,0 +1,41 @@
+FROM openjdk:8-alpine
+
+# JAVA_HOME '/opt/jdk'
+LABEL maintainer="Rain <ychy00001@163.com>"
+
+# 修改源
+RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
+    echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories
+
+# 安装基础软件
+RUN apk update && \
+    apk add --no-cache curl net-tools bash tree tzdata && \
+    cp -rf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime 
+
+# 安装hadoop
+
+ENV HADOOP_VERSION 3.2.1
+
+COPY ./hadoop-$HADOOP_VERSION.tar.gz /tmp/hadoop.tar.gz
+
+RUN set -x \
+    && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
+    && rm /tmp/hadoop.tar.gz*
+
+RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
+
+RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
+
+RUN mkdir /hadoop-data
+
+ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
+ENV HADOOP_CONF_DIR=/etc/hadoop
+ENV MULTIHOMED_NETWORK=1
+ENV USER=root
+ENV PATH $HADOOP_HOME/bin/:$PATH
+
+ADD entrypoint.sh /entrypoint.sh
+
+RUN chmod a+x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

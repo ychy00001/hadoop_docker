@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  master:
+    image: registry.cn-beijing.aliyuncs.com/ychy/hadoop:master-3.2.1-oracle8
+    container_name: master
+    volumes:
+      - ./etc:/etc/hadoop
+      - ./etc/hosts:/etc/hosts
+    ports: 
+      - "8020:8020"
+      - "8088:8088"
+      - "50070:50070"
+    networks:
+      hadoop:
+        ipv4_address: 172.16.1.2
+  
+  slave1:
+    image: registry.cn-beijing.aliyuncs.com/ychy/hadoop:slave-3.2.1-oracle8
+    container_name: slave1
+    volumes:
+      - ./etc:/etc/hadoop
+      - ./etc/hosts:/etc/hosts
+    networks:
+      hadoop:
+        ipv4_address: 172.16.1.3
+    depends_on:
+      - master
+
+  slave2:
+    image: registry.cn-beijing.aliyuncs.com/ychy/hadoop:slave-3.2.1-oracle8
+    container_name: slave2
+    volumes:
+      - ./etc:/etc/hadoop
+      - ./etc/hosts:/etc/hosts
+    networks:
+       hadoop:
+         ipv4_address: 172.16.1.4
+    depends_on:
+      - master
+
+networks:
+  hadoop:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.1.0/24

@@ -1,0 +1,3 @@
+ *.tar.gz
+base/hadoop-3.2.1.tar.gz
+base/jdk-8u144-linux-x64.tar.gz
